@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Skills from "./Skills"
+import BoutonAdd from "./BoutonAdd";
 
 export default function Themes({data}) {
     const[themes, setThemes] = useState(data)
@@ -15,6 +16,7 @@ export default function Themes({data}) {
 
     return(
         <div>
+            <BoutonAdd themes={themes} setThemes={setThemes}/>
             {themes.map((theme) => {
                 return(
                     <div key={theme.id}>

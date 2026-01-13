@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import Themes from './components/Themes';
+import BoutonAdd from './components/BoutonAdd';
 
 
 function App() {
@@ -15,9 +16,6 @@ function App() {
     }
     getData();
   }, [])
-
-  const [themes, setThemes] = useState("")
-  const [skills, setSkill] = useState("")
 
   if(!data){
     return <h1>Chargement...</h1>

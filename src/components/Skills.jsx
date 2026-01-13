@@ -1,15 +1,41 @@
+import { useState } from "react"
+
+export const STATUS = ["KO", "PROGRESS", "OK"]
+
 export default function Skills({theme}){
+  // const [statut, setStatut] = useState(["KO", "PROGRESS", "OK"])
+
+  async function changeStatut(skillIndex, newValidation) {
+    try{
+      await fetch(`http://localhost:3000/themes/${theme.id}/skills/${skillIndex}/${newValidation}`, {method:"PUT"}
+      )
+      console.log('Statut mis à jour avec succès')
+    }catch(error){
+      console.error('Erreur dans les validations', error)
+    }
+    
+  }
     return(
         <>
-        {theme.skills.map((skill) => {
+        {theme.skills.map((skill, index) => {
                 return(
-                  <div key={crypto.randomUUID()}>
-                    <label htmlFor="validation">{skill.label}</label>
-                    <select id="validation" name="validation">
-                        <option>--Statut de Validation--</option>
-                        <option>KO</option>
-                        <option>PROGRESS</option>
-                        <option>OK</option>
+                  <div key={skill.id || index}>
+                    <label htmlFor={index}>{skill.label}</label>
+                    <select id={index} /*name="validation"*/ defaultValue={skill.validation} onChange={(e) => changeStatut(index, e.target.value)}>
+                        {/* <option>--Statut de Validation--</option> */}
+                        {/* <option>{skill.validation}</option>
+                        {statut.map((validation) => {
+                          return(
+                            <option>{validation}</option>
+                          )
+                        })}  */}
+                        {STATUS.map((validation) => {
+                          return(
+                            <option key = {validation} value={validation}>{validation}</option>
+                          )
+                        })
+
+                        }
                     </select>
                   </div>
                 )
