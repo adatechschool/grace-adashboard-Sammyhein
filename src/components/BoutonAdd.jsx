@@ -3,9 +3,26 @@ import { STATUS } from "./Skills"
 
 export default function BoutonAdd({themes, setThemes}) {
 const [themeName, setThemeName] = useState("")
-const [skillLabel, setSkillLabel] = useState("")
-const [skillValidation, setSkillValidation] = useState(STATUS[0])
+// const [skillLabel, setSkillLabel] = useState("")
+// const [skillValidation, setSkillValidation] = useState(STATUS[0])
+const [skills, setSkills] = useState([{label: "", validation: STATUS[0]}])
 const dialogRef = useRef(null)
+
+const addSkill = () => {
+    setSkills([...skills, {label: "", validation: STATUS[0] }]) //validation par défaut
+}
+
+const removeSkill = (index) => {
+    if(skills.length > 1){
+        setSkills(skills.filter((_, i) => i !== index))
+    }
+}
+
+const updateSkill = (index, where, value) => {
+    const updatedSkills = [...skills]
+    updatedSkills[index][where] = value
+    setSkills(updatedSkills)
+}
 
 async function newTheme(e) {
     e.preventDefault()
@@ -17,12 +34,7 @@ async function newTheme(e) {
         },
         body: JSON.stringify({ //Obligatoire pour envoyer les données, il convertit l'objet JS en JSON, sans ça on envoie rien 
             name: themeName,
-            skills:[
-                {
-                    label: skillLabel,
-                    validation: skillValidation //validation par défaut
-                }
-            ]
+            skills: skills 
         })
     })
 
@@ -33,8 +45,9 @@ async function newTheme(e) {
     console.log("Thème ajouté avec succès")
     dialogRef.current.close()
     setThemeName("")
-    setSkillLabel("")
-    setSkillValidation(STATUS[0])
+    //setSkillLabel("")
+    //setSkillValidation(STATUS[0])
+    setSkills([{label: "", validation: STATUS[0]}])
 
     }catch(error){
     console.error("Erreur dans l'ajout du thème")
@@ -50,18 +63,45 @@ async function newTheme(e) {
             <h1>Ajouter un thème</h1>
             <h2>Nom du Thème</h2>
             <input type="text" value={themeName} onChange={(e) => setThemeName(e.target.value)} required/>
-            <h2>Compétences</h2>
-            <input type="text"  placeholder="Je sais..." value={skillLabel} onChange={(e) => setSkillLabel(e.target.value)} required/>
-            <h2>Statut de validation</h2>
-            <select value={skillValidation} onChange={(e) => setSkillValidation(e.target.value)}>
-                {STATUS.map((validation) => {
+            <h2>Compétences <button type="button" onClick={() => {addSkill()}}>+</button></h2>
+                
+                {/* Ce que j'ai besoin pour mon bouton "+" 
+                <div>
+                <input type="text"  placeholder="Je sais..." value={skillLabel} onChange={(e) => setSkillLabel(e.target.value)} required/>
+                <select value={skillValidation} onChange={(e) => setSkillValidation(e.target.value)}>
+                    {STATUS.map((validation) => {
+                        return(
+                                <option key = {validation} value={validation}>{validation}</option>
+                            )
+                    })}
+                </select>
+                <button type="button">-</button>
+                </div> */}
+
+                {skills.map((skill, index) => {
                     return(
-                            <option key = {validation} value={validation}>{validation}</option>
-                          )
+                        <div key ={index}>
+                            <input type="text" placeholder="Je sais..." value={skill.label || ""} onChange={(e) => updateSkill(index, 'label', e.target.value)} required />
+                            <select value={skill.validation} onChange={(e) => updateSkill(index, 'validation', e.target.value)}>
+                                {STATUS.map((validation => {
+                                    return(
+                                        <option key ={validation} value={validation}>{validation}</option>
+                                    )
+                                }))}
+                            </select>
+
+                            {/* Le bouton Remove que quand y'a plus d'une skill */}
+
+                            {skills.length > 1 && (
+                                <button type="button" onClick={() => removeSkill(index)}> - </button>
+                            )}
+
+                        </div>
+                    )
                 })}
-            </select>
+
             <div>
-            <button type="submit">Ajouter</button>
+            <button type="submit">Créer</button>
             <button type="button" onClick={() =>{dialogRef.current.close()}}>Annuler</button>
             </div>
             </form>
