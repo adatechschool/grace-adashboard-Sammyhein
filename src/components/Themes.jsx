@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Skills from "./Skills"
 import BoutonAdd from "./BoutonAdd";
 import { STATUS } from "./Skills";
+import ProgressBar from "./ProgressBar";
 
 export default function Themes({data}) {
     const[themes, setThemes] = useState(data)
     //console.log(themes[0])
     //const[progress, setProgess] = useState(0)
+
+    const [percent, setPercent] = useState(0)
 
     //Cet async me permet de mettre à jour par rapport au pourcentage de progression
     async function refreshThemes() {
@@ -26,6 +29,8 @@ export default function Themes({data}) {
    //il faut que je compte le nombre de skills , pour voir si il sont en "OK"
    //console.log(themes[0].skills[0].validation)
 
+   
+
     return(
         <div>
             <BoutonAdd themes={themes} setThemes={setThemes}/>
@@ -43,6 +48,7 @@ export default function Themes({data}) {
                         <h1>{theme.name}</h1>
                         <h2>{totalProgress}%</h2>
                         </div>
+                        <ProgressBar percent={`${totalProgress}%`}/>
                         <Skills theme = {theme} update={refreshThemes}/>
                         <button onClick={() => {
                             console.log(theme.id)

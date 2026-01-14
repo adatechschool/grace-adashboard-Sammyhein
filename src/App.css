@@ -40,3 +40,15 @@
 .read-the-docs {
   color: #888;
 }
+
+.outer-container{
+  border: 1px solid;
+  height: 10px;
+}
+
+.inner-container{
+  height: 100%;
+  background-color: aqua;
+  width: var(--witdh);
+  transition: width 0.5s ease;
+}
