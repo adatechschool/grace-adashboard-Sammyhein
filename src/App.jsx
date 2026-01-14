@@ -21,7 +21,7 @@ function App() {
     return <h1>Chargement...</h1>
   }
 
-  console.log(data)
+  //console.log(data)
 
   return (
     <>

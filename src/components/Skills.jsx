@@ -2,7 +2,7 @@ import { useState } from "react"
 
 export const STATUS = ["KO", "PROGRESS", "OK"]
 
-export default function Skills({theme}){
+export default function Skills({theme , update}){
   // const [statut, setStatut] = useState(["KO", "PROGRESS", "OK"])
 
   async function changeStatut(skillIndex, newValidation) {
@@ -10,6 +10,9 @@ export default function Skills({theme}){
       await fetch(`http://localhost:3000/themes/${theme.id}/skills/${skillIndex}/${newValidation}`, {method:"PUT"}
       )
       console.log('Statut mis à jour avec succès')
+
+      //l'update est lié à mon themes qui va être utilisé pour mon pourcentage de progression
+      update?.()
     }catch(error){
       console.error('Erreur dans les validations', error)
     }
@@ -18,6 +21,7 @@ export default function Skills({theme}){
     return(
         <>
         {theme.skills.map((skill, index) => {
+          //console.log(`le ${skill.label} à la validation ${skill.validation}`)
                 return(
                   <div key={skill.id || index}>
                     <label htmlFor={index}>{skill.label}</label>

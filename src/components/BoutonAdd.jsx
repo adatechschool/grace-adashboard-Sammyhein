@@ -64,20 +64,6 @@ async function newTheme(e) {
             <h2>Nom du Thème</h2>
             <input type="text" value={themeName} onChange={(e) => setThemeName(e.target.value)} required/>
             <h2>Compétences <button type="button" onClick={() => {addSkill()}}>+</button></h2>
-                
-                {/* Ce que j'ai besoin pour mon bouton "+" 
-                <div>
-                <input type="text"  placeholder="Je sais..." value={skillLabel} onChange={(e) => setSkillLabel(e.target.value)} required/>
-                <select value={skillValidation} onChange={(e) => setSkillValidation(e.target.value)}>
-                    {STATUS.map((validation) => {
-                        return(
-                                <option key = {validation} value={validation}>{validation}</option>
-                            )
-                    })}
-                </select>
-                <button type="button">-</button>
-                </div> */}
-
                 {skills.map((skill, index) => {
                     return(
                         <div key ={index}>
