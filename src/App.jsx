@@ -4,6 +4,7 @@ import Themes from './components/Themes';
 import BoutonAdd from './components/BoutonAdd';
 import { Chart as ChartJS } from 'chart.js/auto';
 import { Doughnut } from 'react-chartjs-2';
+import { STATUS } from './components/Skills';
 
 
 function App() {
@@ -23,21 +24,33 @@ function App() {
     return <h1>Chargement...</h1>
   }
 
-  //console.log(data)
+  console.log(data)
 
   return (
     <>
-    <div className='chart'>
+    {/* <div className='chart'>
       <Doughnut data={{
         labels: ["KO", "PROGRESS", "OK"],
         datasets:[
           {
             label: "Progression",
-            data: [200,300,400],
+            data: [
+              (data.map((theme) =>{
+                let countKO = 0;
+                let countTotalSkills = 0;
+                theme.map((skill) =>{
+                  if(skill.validation === STATUS[0]){countKO += 1}
+                  if(skill.validation){countTotalSkills += 1}
+                })
+                totalProgress = Math.round(countKO/countTotalSkills*100)
+                return totalProgress
+              })),
+              3,
+              4],
           },
         ]
       }}/>
-    </div>
+    </div> */}
     <Themes data={data}/>
     </>
   )
