@@ -52,3 +52,7 @@
   width: var(--witdh);
   transition: width 0.5s ease;
 }
+
+.chart{
+  background-color: aliceblue;
+}
